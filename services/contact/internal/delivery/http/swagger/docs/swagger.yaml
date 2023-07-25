@@ -1,0 +1,670 @@
+basePath: /
+definitions:
+  contact.ContactResponse:
+    properties:
+      age:
+        default: 0
+        description: Возраст
+        example: 42
+        maximum: 200
+        minimum: 0
+        type: integer
+      createdAt:
+        description: Дата создания контакта
+        type: string
+      email:
+        description: Электронная почта
+        example: example@gmail.com
+        format: email
+        maxLength: 250
+        type: string
+      gender:
+        description: Пол
+        enum:
+        - 1
+        - 2
+        example: 1
+        type: integer
+      id:
+        description: Идетификатор записи
+        example: 00000000-0000-0000-0000-000000000000
+        format: uuid
+        type: string
+      modifiedAt:
+        description: Дата последнего изменения контакта
+        type: string
+      name:
+        description: Имя клиента
+        example: Иван
+        maxLength: 50
+        type: string
+      patronymic:
+        description: Отчество клиента
+        example: Иванович
+        maxLength: 100
+        type: string
+      phoneNumber:
+        description: Мобильный телефон
+        example: "78002002020"
+        maxLength: 50
+        type: string
+      surname:
+        description: Фамилия клиента
+        example: Иванов
+        maxLength: 100
+        type: string
+    required:
+    - createdAt
+    - id
+    - modifiedAt
+    - phoneNumber
+    type: object
+  contact.ListContact:
+    properties:
+      limit:
+        default: 10
+        description: Количество записей
+        example: 10
+        minimum: 0
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/contact.ContactResponse'
+        type: array
+      offset:
+        default: 0
+        description: Смещение при получении записей
+        example: 20
+        minimum: 0
+        type: integer
+      total:
+        default: 0
+        description: Всего
+        example: 10
+        minimum: 0
+        type: integer
+    type: object
+  contact.ShortContact:
+    properties:
+      age:
+        default: 0
+        description: Возраст
+        example: 42
+        maximum: 200
+        minimum: 0
+        type: integer
+      email:
+        description: Электронная почта
+        example: example@gmail.com
+        format: email
+        maxLength: 250
+        type: string
+      gender:
+        description: Пол
+        enum:
+        - 1
+        - 2
+        example: 1
+        type: integer
+      name:
+        description: Имя клиента
+        example: Иван
+        maxLength: 50
+        type: string
+      patronymic:
+        description: Отчество клиента
+        example: Иванович
+        maxLength: 100
+        type: string
+      phoneNumber:
+        description: Мобильный телефон
+        example: "78002002020"
+        maxLength: 50
+        type: string
+      surname:
+        description: Фамилия клиента
+        example: Иванов
+        maxLength: 100
+        type: string
+    required:
+    - phoneNumber
+    type: object
+  group.GroupList:
+    properties:
+      limit:
+        default: 10
+        description: Количество записей
+        example: 10
+        minimum: 0
+        type: integer
+      list:
+        description: Список групп
+        items:
+          $ref: '#/definitions/group.GroupResponse'
+        minItems: 0
+        type: array
+      offset:
+        default: 0
+        description: Смещение при получении записей
+        example: 20
+        minimum: 0
+        type: integer
+      total:
+        default: 0
+        description: Всего
+        example: 10
+        minimum: 0
+        type: integer
+    type: object
+  group.GroupResponse:
+    properties:
+      contactsAmount:
+        default: 10
+        description: Кол-во контактов в группе
+        minimum: 0
+        type: integer
+      createdAt:
+        description: Дата создания группы
+        type: string
+      description:
+        description: Описание
+        example: Описание группы
+        maxLength: 1000
+        type: string
+      id:
+        description: Идентификатор группы
+        example: 00000000-0000-0000-0000-000000000000
+        format: uuid
+        type: string
+      modifiedAt:
+        description: Дата последнего изменения группы
+        type: string
+      name:
+        description: Название группы
+        example: Название группы
+        maxLength: 100
+        type: string
+    required:
+    - createdAt
+    - id
+    - modifiedAt
+    - name
+    type: object
+  group.ShortGroup:
+    properties:
+      description:
+        description: Описание
+        example: Описание группы
+        maxLength: 1000
+        type: string
+      name:
+        description: Название группы
+        example: Название группы
+        maxLength: 100
+        type: string
+    required:
+    - name
+    type: object
+  http.ErrorResponse:
+    properties:
+      errors:
+        items:
+          type: string
+        type: array
+      id:
+        type: string
+      info: {}
+      message:
+        type: string
+    type: object
+info:
+  contact:
+    email: kolyadkons@gmail.com
+    name: API Support
+  description: contact service on clean architecture
+  license:
+    name: kolyadkons
+  title: slurm contact service on clean architecture
+  version: "1.0"
+paths:
+  /contacts/:
+    get:
+      consumes:
+      - application/json
+      description: Метод позволяет получить список контактов.
+      parameters:
+      - default: 10
+        description: Количество записей
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Смещение при получении записей
+        in: query
+        name: offset
+        type: integer
+      - default: name
+        description: Сортировка по полю
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список контактов
+          schema:
+            $ref: '#/definitions/contact.ListContact'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Получить список контактов.
+      tags:
+      - contacts
+    post:
+      consumes:
+      - application/json
+      description: Метод позволяет создать контакт.
+      parameters:
+      - description: Данные по контакту
+        in: body
+        name: contact
+        required: true
+        schema:
+          $ref: '#/definitions/contact.ShortContact'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "201":
+          description: Структура контакта
+          schema:
+            $ref: '#/definitions/contact.ContactResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Метод позволяет создать контакт.
+      tags:
+      - contacts
+  /contacts/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Метод позволяет удалить контакт.
+      parameters:
+      - description: Идентификатор контакта
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Метод позволяет удалить контакт.
+      tags:
+      - contacts
+    get:
+      consumes:
+      - application/json
+      description: Метод позволяет получить контакт по мдентификатору контакта.
+      parameters:
+      - description: Идентификатор контакта
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Структура контакта
+          schema:
+            $ref: '#/definitions/contact.ContactResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Получить контакт.
+      tags:
+      - contacts
+    put:
+      consumes:
+      - application/json
+      description: Метод позволяет обновить данные контакта.
+      parameters:
+      - description: Идентификатор контакта
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Данные по контакту
+        in: body
+        name: contact
+        required: true
+        schema:
+          $ref: '#/definitions/contact.ShortContact'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Структура контакта
+          schema:
+            $ref: '#/definitions/contact.ContactResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Метод позволяет обновить данные контакта.
+      tags:
+      - contacts
+  /groups/:
+    get:
+      consumes:
+      - application/json
+      description: Метод позволяет получить список групп.
+      parameters:
+      - default: 10
+        description: Количество записей
+        in: query
+        name: limit
+        type: integer
+      - default: 0
+        description: Смещение при получении записей
+        in: query
+        name: offset
+        type: integer
+      - default: name
+        description: Сортировка по полю
+        in: query
+        name: sort
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/group.GroupList'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Метод позволяет получить список групп.
+      tags:
+      - groups
+    post:
+      consumes:
+      - application/json
+      description: Метод позволяет создать группу контактов.
+      parameters:
+      - description: Данные по группе
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/group.ShortGroup'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/group.GroupResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Метод позволяет создать группу контактов.
+      tags:
+      - groups
+  /groups/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Метод позволяет удалить группу.
+      parameters:
+      - description: Идентификатор группы
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Метод позволяет удалить группу.
+      tags:
+      - groups
+    get:
+      consumes:
+      - application/json
+      description: Метод позволяет получить данные по группе.
+      parameters:
+      - description: Идентификатор группы контактов
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/group.GroupResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Метод позволяет получить данные по группе.
+      tags:
+      - groups
+    put:
+      consumes:
+      - application/json
+      description: Метод позволяет обновить данные группы.
+      parameters:
+      - description: Идентификатор группы
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Данные по группе
+        in: body
+        name: group
+        required: true
+        schema:
+          $ref: '#/definitions/group.ShortGroup'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/group.GroupResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Метод позволяет обновить данные группы.
+      tags:
+      - groups
+  /groups/{id}/contacts/:
+    post:
+      consumes:
+      - application/json
+      description: Создание контакта и добавление его в существующую группу.
+      parameters:
+      - description: Идентификатор группы контактов
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Данные по контакту
+        in: body
+        name: contact
+        required: true
+        schema:
+          $ref: '#/definitions/contact.ShortContact'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      security:
+      - Cookies: []
+      summary: Создание контакта и добавление его в существующую группу.
+      tags:
+      - groups
+  /groups/{id}/contacts/{contactId}:
+    delete:
+      consumes:
+      - application/json
+      description: Метод позволяет удалить контакт из группы.
+      parameters:
+      - description: Идентификатор группы
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Идентификатор контакта
+        in: path
+        name: contactId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Метод позволяет удалить контакт из группы.
+      tags:
+      - groups
+    post:
+      consumes:
+      - application/json
+      description: Метод позволяет добавить контакты в группу.
+      parameters:
+      - description: Идентификатор группы
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: Идентификатор контакта
+        in: path
+        name: contactId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ""
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+        "403":
+          description: Forbidden
+        "404":
+          description: 404 Not Found
+          schema:
+            $ref: '#/definitions/http.ErrorResponse'
+      summary: Метод позволяет добавить контакты в группу.
+      tags:
+      - groups
+swagger: "2.0"

@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package contact;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./;contact";
+
+service ContactService {
+  rpc CreateGroup (CreateGroupRequest) returns (CreateGroupResponse) {}
+  rpc UpdateGroup (UpdateGroupRequest) returns (UpdateGroupResponse) {}
+  rpc DeleteGroup (DeleteGroupRequest) returns (DeleteGroupResponse) {}
+}
+
+message CreateGroupRequest {
+  string created_by = 1;
+
+  string name = 2;
+  string description = 3;
+}
+
+message GroupResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp modified_at = 5;
+
+  uint64 contactCount = 6;
+}
+
+message CreateGroupResponse {
+  GroupResponse response = 1;
+}
+
+message UpdateGroupRequest {
+  string id = 1;
+  string created_by = 2;
+
+  string name = 3;
+  string description = 4;
+}
+
+message UpdateGroupResponse {
+  GroupResponse response = 1;
+}
+
+message DeleteGroupRequest {
+  string id = 1;
+  string created_by = 2;
+}
+
+message DeleteGroupResponse {
+  GroupResponse response = 1;
+}
