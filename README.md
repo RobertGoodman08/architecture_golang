@@ -31,17 +31,17 @@
 
 Для разработки этого проекта  использовал следующие ссылки:
 
-Статья на Хабре от компании Олега Бунина, где рассматривается подход к построению Clean Architecture в Go (https://habr.com/ru/company/oleg-bunin/blog/516500/).
-Проект go-clean-template от evrone, который также предоставляет примеры реализации Clean Architecture на Go (https://github.com/evrone/go-clean-template).
-Проект go-clean-arch от bxcodec, который демонстрирует применение чистой архитектуры в Go (https://github.com/bxcodec/go-clean-arch).
-Проект go-clean-architecture от zhashkevych, представляющий пример Clean Architecture на Go (https://github.com/zhashkevych/go-clean-architecture).
-Проект golang-clean-architecture от theartofdevel, предоставляющий пример применения чистой архитектуры в Go (https://github.com/theartofdevel/golang-clean-architecture).
-Проект wild-workouts-go-ddd-example от ThreeDotsLabs, демонстрирующий использование Domain-Driven Design (DDD) в Go (https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example).
+- Статья на Хабре от компании Олега Бунина, где рассматривается подход к построению Clean Architecture в Go (https://habr.com/ru/company/oleg-bunin/blog/516500/).
+- Проект go-clean-template от evrone, который также предоставляет примеры реализации Clean Architecture на Go (https://github.com/evrone/go-clean-template).
+- Проект go-clean-arch от bxcodec, который демонстрирует применение чистой архитектуры в Go (https://github.com/bxcodec/go-clean-arch).
+- Проект go-clean-architecture от zhashkevych, представляющий пример Clean Architecture на Go (https://github.com/zhashkevych/go-clean-architecture).
+- Проект golang-clean-architecture от theartofdevel, предоставляющий пример применения чистой архитектуры в Go (https://github.com/theartofdevel/golang-clean-architecture).
+- Проект wild-workouts-go-ddd-example от ThreeDotsLabs, демонстрирующий использование Domain-Driven Design (DDD) в Go (https://github.com/ThreeDotsLabs/wild-workouts-go-ddd-example).
 
 Кроме того, использовал видеоресурсы которые помогли составить архитектуру проекта:
-Видео с YouTube о Clean Architecture in Golang (https://www.youtube.com/watch?v=PTE4VJIdHPg).
-Видео с YouTube о Building Scalable Web Services with Go (https://www.youtube.com/watch?v=oL6JBUk6tj0).
-Видео с YouTube о Go and Clean Architecture (https://www.youtube.com/watch?v=3gQa1LWwuzk).
+- Видео с YouTube о Clean Architecture in Golang (https://www.youtube.com/watch?v=PTE4VJIdHPg).
+- Видео с YouTube о Building Scalable Web Services with Go (https://www.youtube.com/watch?v=oL6JBUk6tj0).
+- Видео с YouTube о Go and Clean Architecture (https://www.youtube.com/watch?v=3gQa1LWwuzk).
 
 ## Обратите внимание, что приведенные ссылки и видео предоставляют полезные материалы для изучения и понимание чистой архитектуры на Golang.
 
